@@ -21,6 +21,10 @@ namespace BlackjackMain
         {
             Deck newDeck = new Deck();
             Round startRound = new Round(newDeck);
+
+            Player1 pl1 = new Player1(ref startRound);
+            pl1.Show();
+            this.Hide();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace BlackjackMain
 {
     internal class Card
     {
-        string pathTo;
+        public string pathTo;
         public int value;    
         public Card(int value,string path)
         {
@@ -26,7 +26,17 @@ namespace BlackjackMain
             foreach (var item in new DirectoryInfo(@"C:\Users\Quickscoper\Downloads\playngCards").GetFiles())
             {
                 string path = item.FullName;
-                int value = Int32.Parse(Convert.ToString(item.Name[1]));
+                int value;
+                if (Int32.TryParse(Convert.ToString(item.Name[0]),out value))
+                {
+                    Console.WriteLine(item.Name);
+                    value = Int32.Parse(Convert.ToString(item.Name[0]));
+                }
+                else
+                {
+                    Console.WriteLine(item.Name);
+                    value = 10;
+                }
 
                 deckContainer.Add(new Card(value, path));
             }

@@ -35,26 +35,29 @@
             // 
             // playerTotal
             // 
-            this.playerTotal.Location = new System.Drawing.Point(183, 329);
+            this.playerTotal.Location = new System.Drawing.Point(198, 286);
             this.playerTotal.Name = "playerTotal";
             this.playerTotal.ReadOnly = true;
             this.playerTotal.Size = new System.Drawing.Size(100, 22);
             this.playerTotal.TabIndex = 0;
+            this.playerTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.playerTotal.TextChanged += new System.EventHandler(this.playerTotal_TextChanged);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(183, 357);
+            this.pictureBox1.Location = new System.Drawing.Point(195, 318);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox1.Size = new System.Drawing.Size(86, 113);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // Player1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 450);
+            this.ClientSize = new System.Drawing.Size(515, 485);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.playerTotal);
             this.Name = "Player1";

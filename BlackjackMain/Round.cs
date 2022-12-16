@@ -9,7 +9,7 @@ namespace BlackjackMain
     class Player
     {
         public List<Card> playingHand = new List<Card>();
-        int total
+        public int total
         {
             get 
             {
@@ -37,8 +37,9 @@ namespace BlackjackMain
 
         public Round(Deck currentDeckState)
         {
+            players[0] = new Player();
             players[1] = new Player();
-            players[2] = new Player();
+            currentDeck = currentDeckState;
         }
     }
 }
