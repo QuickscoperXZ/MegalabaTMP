@@ -22,6 +22,7 @@ namespace BlackjackMain
             }
         }
 
+        public bool isEnough = false;
         public void takeCard(ref Deck deck)
         {
             playingHand.Add(deck.deckContainer.Last());
@@ -31,7 +32,7 @@ namespace BlackjackMain
 
     internal class Round
     {
-        public Player[] players = new Player[2];
+        public Player[] players = new Player[3];
         public Deck currentDeck;
         int currentPlayer;
 
@@ -39,7 +40,16 @@ namespace BlackjackMain
         {
             players[0] = new Player();
             players[1] = new Player();
+            players[2] = new Player();
             currentDeck = currentDeckState;
+            reserveCardsDealer();
+        }
+        void reserveCardsDealer()
+        {
+            players[2].playingHand.Add(currentDeck.deckContainer[currentDeck.deckContainer.Count - 7]);
+            players[2].playingHand.Add(currentDeck.deckContainer[currentDeck.deckContainer.Count - 6]);
+            currentDeck.deckContainer.Remove(players[2].playingHand[0]);
+            currentDeck.deckContainer.Remove(players[2].playingHand[1]);
         }
     }
 }
