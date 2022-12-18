@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace BlackjackMain
 {
@@ -21,6 +22,7 @@ namespace BlackjackMain
                 return returnableValue;
             }
         }
+        public int endOfRoundCode;
 
         public bool isEnough = false;
         public void takeCard(ref Deck deck)
@@ -28,14 +30,29 @@ namespace BlackjackMain
             playingHand.Add(deck.deckContainer.Last());
             deck.deckContainer.Remove(deck.deckContainer.Last());
         }
+        public bool isCurrentPlayer = false;
     }
 
     internal class Round
     {
         public Player[] players = new Player[3];
         public Deck currentDeck;
-        int currentPlayer;
-
+        private int currentPlayer;
+        public int currentPlayerProperty
+        {
+            get { return currentPlayer; }
+            set
+            {
+                if (value > 1)
+                {
+                }
+                else
+                {
+                    currentPlayer = value;
+                    players[value].isCurrentPlayer = true;
+                }
+            }
+        }
         public Round(Deck currentDeckState)
         {
             players[0] = new Player();
@@ -43,6 +60,12 @@ namespace BlackjackMain
             players[2] = new Player();
             currentDeck = currentDeckState;
             reserveCardsDealer();
+            Thread th1 = new Thread(() =>
+            {
+                while (players[0].isEnough == true && players[1].isEnough == true)
+                { }
+                
+            });
         }
         void reserveCardsDealer()
         {

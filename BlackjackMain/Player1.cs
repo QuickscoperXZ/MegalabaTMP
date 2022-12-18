@@ -18,28 +18,56 @@ namespace BlackjackMain
         List<Card> dealerHand;
         List<PictureBox> showableCards = new List<PictureBox>();
         List<PictureBox> showableCardsDealer = new List<PictureBox>();
-
-        public Player1(Round round,int playerID)
+        public bool isCurrentPlayer
+        {
+            get { return currentRound.players[playerID].isCurrentPlayer; }
+            set
+            {
+                currentRound.players[playerID].isCurrentPlayer = value;
+                if (value == false)
+                {
+                    moreButton.Enabled = false;
+                    enoughButton.Enabled = false;
+                }
+                else 
+                { moreButton.Enabled = true; enoughButton.Enabled = true; }
+            }
+        }
+        bool isEnough
+        {
+            get { return currentRound.players[playerID].isEnough; }
+            set { }
+        }
+        public Player1(ref Round round,int playerID)
         {
             InitializeComponent();
             currentRound = round;
             this.playerID = playerID;
-            
+            playingHand = currentRound.players[playerID].playingHand;
+            dealerHand = currentRound.players[2].playingHand;
+            if (playerID == round.currentPlayerProperty)
+            {
+                isCurrentPlayer = true;
+            }
+            else
+            {
+                isCurrentPlayer = false;
+            }
         }
         public Player1(ref Round round)//, int playerID)
         {
             InitializeComponent();
             currentRound = round;
-            playingHand = currentRound.players[0].playingHand;
+            playingHand = currentRound.players[playerID].playingHand;
             dealerHand = currentRound.players[2].playingHand;
             //this.playerID = playerID;
         }
         private void Player1_Load(object sender, EventArgs e)
         {
-            currentRound.players[0].takeCard(ref currentRound.currentDeck);
-            currentRound.players[0].takeCard(ref currentRound.currentDeck);
+            currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
+            currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
 
-            playerTotal.Text = Convert.ToString(currentRound.players[0].total);
+            playerTotal.Text = Convert.ToString(currentRound.players[playerID].total);
             showPlayerCards();
             showDealerCards();
         }
@@ -48,14 +76,14 @@ namespace BlackjackMain
         {
             if (Int32.Parse(playerTotal.Text) >= 21)
             {
-                currentRound.players[0].isEnough = true;
+                currentRound.players[playerID].isEnough = true;
                 enoughButton.Enabled = false;
                 moreButton.Enabled = false;
             }
         }
         void updateTotal()
         {
-            playerTotal.Text = Convert.ToString(currentRound.players[0].total);
+            playerTotal.Text = Convert.ToString(currentRound.players[playerID].total);
         }
         void updateControls()
         {
@@ -104,7 +132,7 @@ namespace BlackjackMain
                 item.BringToFront();
             }
         }
-        void showDealerCards()
+        public void showDealerCards()
         {
             updateControlsDealer();
             foreach (var item in showableCardsDealer)
@@ -117,16 +145,23 @@ namespace BlackjackMain
 
         private void moreButton_Click(object sender, EventArgs e)
         {
-            currentRound.players[0].takeCard(ref currentRound.currentDeck);
+            currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
             updateControls();
             showPlayerCards();
         }
 
         private void enoughButton_Click(object sender, EventArgs e)
         {
-            currentRound.players[0].isEnough = true;
-            moreButton.Enabled = false;
-            enoughButton.Enabled = false;
+            currentRound.players[playerID].isEnough = true;
+            //moreButton.Enabled = false;
+            //enoughButton.Enabled = false;
+            isCurrentPlayer = false;
+            currentRound.currentPlayerProperty ++;
+        }
+
+        private void Player1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

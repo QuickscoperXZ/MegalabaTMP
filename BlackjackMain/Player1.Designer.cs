@@ -40,10 +40,12 @@
             // 
             // playerTotal
             // 
+            this.playerTotal.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.playerTotal.Enabled = false;
             this.playerTotal.Location = new System.Drawing.Point(198, 286);
             this.playerTotal.Name = "playerTotal";
             this.playerTotal.ReadOnly = true;
-            this.playerTotal.Size = new System.Drawing.Size(100, 22);
+            this.playerTotal.Size = new System.Drawing.Size(100, 15);
             this.playerTotal.TabIndex = 0;
             this.playerTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.playerTotal.TextChanged += new System.EventHandler(this.playerTotal_TextChanged);
@@ -90,10 +92,12 @@
             // 
             // dealerTotal
             // 
+            this.dealerTotal.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dealerTotal.Enabled = false;
             this.dealerTotal.Location = new System.Drawing.Point(198, 168);
             this.dealerTotal.Name = "dealerTotal";
             this.dealerTotal.ReadOnly = true;
-            this.dealerTotal.Size = new System.Drawing.Size(100, 22);
+            this.dealerTotal.Size = new System.Drawing.Size(100, 15);
             this.dealerTotal.TabIndex = 4;
             this.dealerTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -110,6 +114,7 @@
             this.Controls.Add(this.playerTotal);
             this.Name = "Player1";
             this.Text = "Player1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Player1_FormClosed);
             this.Load += new System.EventHandler(this.Player1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
