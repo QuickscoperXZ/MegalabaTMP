@@ -34,6 +34,7 @@
             this.enoughButton = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dealerTotal = new System.Windows.Forms.TextBox();
+            this.eorStateMessage = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -101,11 +102,25 @@
             this.dealerTotal.TabIndex = 4;
             this.dealerTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // eorStateMessage
+            // 
+            this.eorStateMessage.BackColor = System.Drawing.SystemColors.Control;
+            this.eorStateMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.eorStateMessage.Font = new System.Drawing.Font("Microsoft YaHei UI Light", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.eorStateMessage.Location = new System.Drawing.Point(12, 189);
+            this.eorStateMessage.Name = "eorStateMessage";
+            this.eorStateMessage.ReadOnly = true;
+            this.eorStateMessage.Size = new System.Drawing.Size(491, 96);
+            this.eorStateMessage.TabIndex = 6;
+            this.eorStateMessage.Text = "          Вы проиграли";
+            this.eorStateMessage.Visible = false;
+            // 
             // Player1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 485);
+            this.Controls.Add(this.eorStateMessage);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.dealerTotal);
             this.Controls.Add(this.enoughButton);
@@ -131,5 +146,6 @@
         private System.Windows.Forms.Button enoughButton;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TextBox dealerTotal;
+        public System.Windows.Forms.RichTextBox eorStateMessage;
     }
 }

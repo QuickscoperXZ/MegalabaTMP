@@ -7,18 +7,23 @@ namespace COMegalab
     [Guid("881747A4-6A3A-48A0-A1F4-9E170AC89F5E")]
     public interface IblackjackHandler
     {
-        public static int handlePlayerState(int playerTotal, int dealerTotal)
-        {
-            return 0;
-        }
+        int handlePlayerState(int playerTotal, int dealerTotal);
     }
     [ClassInterface(ClassInterfaceType.None)]
-    [Guid("A01782F2-377E-45B8-82F0-090CACB12FBB")]
+    [Guid("BA0B78EE-F7FB-4681-85E6-3E5BEDCA9D89")]
     [ProgId("COMegalab")]
     public class blackjackHandler : IblackjackHandler
     {
-        public static int handlePlayerState(int playerTotal, int dealerTotal)
+        public int handlePlayerState(int playerTotal, int dealerTotal)
         {
+            if (playerTotal > 21)
+            {
+                return 0;
+            }
+            if (dealerTotal > 21)
+            {
+                return 1;
+            }
             if (playerTotal < dealerTotal)
             {
                 return 0;

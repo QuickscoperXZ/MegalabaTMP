@@ -8,11 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace BlackjackMain
 {
     public partial class Form1 : Form
     {
+        static Guid COMID = Guid.Parse("A01782F2-377E-45B8-82F0-090CACB12FBB");
+        static Type objType = Type.GetTypeFromProgID("COMegalab");
         public Form1()
         {
             InitializeComponent();
@@ -43,6 +46,42 @@ namespace BlackjackMain
                 }
                 pl1.Invoke((MethodInvoker)delegate () { pl1.showDealerCards(); });
                 pl2.Invoke((MethodInvoker)delegate () { pl2.showDealerCards(); });
+
+                dynamic handler = Activator.CreateInstance(objType);
+
+                startRound.players[0].endOfRoundCode = handler.handlePlayerState(startRound.players[0].total, startRound.players[2].total);
+                startRound.players[1].endOfRoundCode = handler.handlePlayerState(startRound.players[1].total, startRound.players[2].total);
+
+                if (startRound.players[0].endOfRoundCode == 0)
+                {
+                    pl1.eorStateMessage.Text = "          Вы выйграли";
+                    pl1.eorStateMessage.ForeColor = Color.Green;
+                }
+                if (startRound.players[0].endOfRoundCode == 1)
+                {
+                    pl1.eorStateMessage.Text = "          Вы проиграли";
+                    pl1.eorStateMessage.ForeColor = Color.Red;
+                }
+                if (startRound.players[0].endOfRoundCode == 2)
+                {
+                    pl1.eorStateMessage.Text = "          Ничья";
+                    pl1.eorStateMessage.ForeColor = Color.Gray;
+                }
+                if (startRound.players[1].endOfRoundCode == 0)
+                {
+                    pl1.eorStateMessage.Text = "          Вы выйграли";
+                    pl1.eorStateMessage.ForeColor = Color.Green;
+                }
+                if (startRound.players[1].endOfRoundCode == 1)
+                {
+                    pl1.eorStateMessage.Text = "          Вы проиграли";
+                    pl1.eorStateMessage.ForeColor = Color.Red;
+                }
+                if (startRound.players[1].endOfRoundCode == 2)
+                {
+                    pl1.eorStateMessage.Text = "          Ничья";
+                    pl1.eorStateMessage.ForeColor = Color.Gray;
+                }
             });
             dealearReady.Start();
         }
