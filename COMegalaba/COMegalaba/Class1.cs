@@ -35,10 +35,10 @@ namespace COMegalab
         {
             return round.players[playerID].total;
         }
-        public void getRoundState()
-        {
+        //public Dictionary<string,string> getRoundState()
+        //{
 
-        }
+        //}
         public void setPlayerState(int playerID, bool isCurrentPlayer)
         {
             round.players[playerID].isCurrentPlayer = isCurrentPlayer;
@@ -48,9 +48,10 @@ namespace COMegalab
             round.players[playerID].isCurrentPlayer=isCurrentPlayer;
             round.players[playerID].isEnough = isEnough;
         }
-        public bool getPlayerState(int playerID)
+        public bool[] getPlayerState(int playerID)
         {
-            return round.players[playerID].isCurrentPlayer;
+            bool[] returnableValue = new bool[2] { round.players[playerID].isCurrentPlayer, round.players[playerID].isEnough };
+            return returnableValue;
         }
         public void playerTakeOne(int playerID)
         {

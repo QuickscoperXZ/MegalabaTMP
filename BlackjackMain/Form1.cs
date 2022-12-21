@@ -31,9 +31,9 @@ namespace BlackjackMain
             //Deck newDeck = new Deck();
             //Round startRound = new Round(newDeck);
             this.Hide();
-            Player1 pl1 = new Player1(ref startRound, 0);
+            Player1 pl1 = new Player1(server,0);
             pl1.Show();
-            Player1 pl2 = new Player1(ref startRound, 1);
+            Player1 pl2 = new Player1(server, 1);
             pl2.Show();
             Thread controlsUpdater = new Thread(delegate ()
             {
@@ -41,6 +41,20 @@ namespace BlackjackMain
                 pl2.Invoke((MethodInvoker)delegate () { pl2.isCurrentPlayer = true; });
             });
             controlsUpdater.Start();
+            Thread dealerReady = new Thread(() =>
+            {
+                while (server.getPlayerState(0)[1] == false || server.getPlayerState(1)[1] == false) { };
+                while (server.getPlayerTotal(2) <= 17)
+                {
+                    server.playerTakeOne(2);
+                }
+                pl1.Invoke((MethodInvoker)delegate () { pl1.showDealerCards(); });
+                pl2.Invoke((MethodInvoker)delegate () { pl2.showDealerCards(); });
+
+                pl1.endOfRoundStateProperty = server.getEndOfRoundState(0);
+                pl2.endOfRoundStateProperty = server.getEndOfRoundState(1);
+            });
+            dealerReady.Start();
             //Thread dealearReady = new Thread(delegate ()
             //{
             //    while (startRound.players[0].isEnough == false || startRound.players[1].isEnough == false)

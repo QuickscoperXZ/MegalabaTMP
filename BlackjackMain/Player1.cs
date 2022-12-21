@@ -15,6 +15,15 @@ namespace BlackjackMain
         //Round currentRound;
         int playerID;
         dynamic server;
+        string endOfRoundState;
+        public string endOfRoundStateProperty
+        {
+            get { return endOfRoundState; }
+            set
+            {
+                eorStateMessage.Text = value; 
+            }
+        }
         //List<Card> playingHand;
         //List<Card> dealerHand;
         List<PictureBox> showableCards = new List<PictureBox>();
