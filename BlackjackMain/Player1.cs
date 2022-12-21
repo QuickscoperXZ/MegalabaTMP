@@ -72,10 +72,12 @@ namespace BlackjackMain
         //}
         private void Player1_Load(object sender, EventArgs e)
         {
-            currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
-            currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
+            server.playerTakeOne(playerID);
+            server.playerTakeOne(playerID);
+            //currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
+            //currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
 
-            playerTotal.Text = Convert.ToString(currentRound.players[playerID].total);
+            playerTotal.Text = server.getPlayerTotal(playerID);
             showPlayerCards();
             showDealerCards();
         }
@@ -96,7 +98,8 @@ namespace BlackjackMain
         void updateControls()
         {
             showableCards.Clear();
-            for (int i = 0; i <= playingHand.Count-1; i++)
+            List<string> playerHand = server.getPlayerHand(playerID);
+            for (int i = 0; i <= playerHand.Count-1; i++)
             {
                 showableCards.Add(new Func<PictureBox>(() =>
                 {
@@ -104,16 +107,17 @@ namespace BlackjackMain
                     returnableValue.Size= new Size(86,113);
                     returnableValue.SizeMode = PictureBoxSizeMode.StretchImage;
                     returnableValue.Location = new Point(pictureBox1.Location.X + 34 * i, pictureBox1.Location.Y);
-                    returnableValue.Image = new Bitmap(playingHand[i].pathTo);
-                    returnableValue.Name = playingHand[i].pathTo.Substring(playingHand[i].pathTo.Length-5);
+                    returnableValue.Image = new Bitmap(playerHand[i]);
+                    returnableValue.Name = playerHand[i].Substring(playerHand[i].Length-5);
                     return returnableValue;
                 })());
             }
-            playerTotal.Text = Convert.ToString(currentRound.players[0].total);
+            playerTotal.Text = Convert.ToString(server.getPlayerTotal);
         }
         void updateControlsDealer()
         {
             showableCardsDealer.Clear();
+            List<string> dealerHand = server.getPlayerHand(2);
             for (int i = 0; i <= dealerHand.Count - 1; i++)
             {
                 showableCardsDealer.Add(new Func<PictureBox>(() =>
@@ -122,12 +126,12 @@ namespace BlackjackMain
                     returnableValue.Size = new Size(86, 113);
                     returnableValue.SizeMode = PictureBoxSizeMode.StretchImage;
                     returnableValue.Location = new Point(pictureBox2.Location.X + 34 * i, pictureBox2.Location.Y);
-                    returnableValue.Image = new Bitmap(dealerHand[i].pathTo);
-                    returnableValue.Name = dealerHand[i].pathTo.Substring(dealerHand[i].pathTo.Length - 5);
+                    returnableValue.Image = new Bitmap(dealerHand[i]);
+                    returnableValue.Name = dealerHand[i].Substring(dealerHand[i].Length - 5);
                     return returnableValue;
                 })());
             }
-            dealerTotal.Text = Convert.ToString(currentRound.players[2].total);
+            dealerTotal.Text = Convert.ToString(server.getPlayerTotal(2));
         }
 
         void showPlayerCards()
@@ -153,7 +157,8 @@ namespace BlackjackMain
 
         private void moreButton_Click(object sender, EventArgs e)
         {
-            currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
+            //currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
+            server.playerTakeOne();
             updateControls();
             showPlayerCards();
         }
