@@ -22,11 +22,6 @@ namespace COMegalab
         {
             deck = new Deck();
             round = new Round(deck);
-
-            Thread handler = new Thread(delegate ()
-            {
-                while (round.players[0])
-            });
         }
         public void fetchDataFromObject()
         {
@@ -36,9 +31,9 @@ namespace COMegalab
         {
 
         }
-        public void getPlayerTotal()
+        public int getPlayerTotal(int playerID)
         {
-
+            return round.players[playerID].total;
         }
         public void getRoundState()
         {
@@ -46,19 +41,20 @@ namespace COMegalab
         }
         public void setPlayerState(int playerID, bool isCurrentPlayer)
         {
-
+            round.players[playerID].isCurrentPlayer = isCurrentPlayer;
         }
         public void setPlayerState(int playerID, bool isCurrentPlayer, bool isEnough)
         {
-
+            round.players[playerID].isCurrentPlayer=isCurrentPlayer;
+            round.players[playerID].isEnough = isEnough;
         }
-        public void getPlayerState()
+        public bool getPlayerState(int playerID)
         {
-
+            return round.players[playerID].isCurrentPlayer;
         }
-        public void playerTake()
+        public void playerTakeOne(int playerID)
         {
-
+            round.players[playerID].takeCard(ref deck);
         }
     }
 }

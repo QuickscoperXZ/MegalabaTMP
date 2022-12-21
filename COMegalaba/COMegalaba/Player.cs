@@ -4,9 +4,12 @@ using System.IO;
 
 namespace COMegalab
 {
-    class Player
+    public class Player
     {
-        List<Card> cards = new List<Card>();
+        public List<Card> cards = new List<Card>();
+        public int playerID;
+        public bool isCurrentPlayer;
+        public bool isEnough;
         int total
         {
             get
@@ -19,24 +22,51 @@ namespace COMegalab
                 return returnableValue;
             }
         }
+        public void takeCard(ref Deck fromDeck)
+        {
+            cards.Add(fromDeck.deckContainer[fromDeck.deckContainer.Count - 1]);
+            fromDeck.deckContainer.RemoveAt(fromDeck.deckContainer.Count-1);
+        }
     }
 
-    class Round
+    public class Round
     {
-        Player[] players = new Player[3] { new Player(), new Player(), new Player() };
-
+        Deck currentDeck;
+        public Player[] players = new Player[3] { new Player(), new Player(), new Player() };
+        int currentPlayer;
+        public int currentPlayerProperty
+        {
+            get { return currentPlayer; }
+            set 
+            {
+                currentPlayer = value;
+                for (int i =0;i<=3;i++)
+                {
+                    if (i != value)
+                    { players[i].isCurrentPlayer = false; }
+                    else
+                    { players[currentPlayer].isCurrentPlayer = true; }                
+                }
+            }
+        }
+        public Round(Deck currentDeckState)
+        {
+            currentDeck = currentDeckState;
+            reserveCardsDealer();
+        }
+        void reserveCardsDealer()
+        {
+            players[2].cards.Add(currentDeck.deckContainer[currentDeck.deckContainer.Count - 7]);
+            players[2].cards.Add(currentDeck.deckContainer[currentDeck.deckContainer.Count - 6]);
+            currentDeck.deckContainer.Remove(players[2].cards[0]);
+            currentDeck.deckContainer.Remove(players[2].cards[1]);
+        }
     }
 
 
     public class Deck
     {
-        List<Card> deckContainer = new List<Card>();
-
-        //public Deck(List<string> pths, List<int> val)
-        //{
-        //    paths = pths;
-        //    values = val;
-        //}
+        public List<Card> deckContainer = new List<Card>();        
         public Deck()
         {
             foreach (var item in new DirectoryInfo(@"C:\Users\Quickscoper\Downloads\playngCards").GetFiles())
@@ -72,7 +102,7 @@ namespace COMegalab
             }
         }
     }
-    class Card
+    public class Card
     {
         string pathTo;
         int value;
