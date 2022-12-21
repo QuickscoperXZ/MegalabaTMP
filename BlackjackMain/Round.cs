@@ -60,12 +60,6 @@ namespace BlackjackMain
             players[2] = new Player();
             currentDeck = currentDeckState;
             reserveCardsDealer();
-            Thread th1 = new Thread(() =>
-            {
-                while (players[0].isEnough == true && players[1].isEnough == true)
-                { }
-                
-            });
         }
         void reserveCardsDealer()
         {

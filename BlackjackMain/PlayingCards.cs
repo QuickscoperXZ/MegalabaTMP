@@ -11,7 +11,7 @@ namespace BlackjackMain
     internal class Card
     {
         public string pathTo;
-        public int value;    
+        public int value;       
         public Card(int value,string path)
         {
             this.value = value;

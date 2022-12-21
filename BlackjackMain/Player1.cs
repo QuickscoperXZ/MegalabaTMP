@@ -12,18 +12,19 @@ namespace BlackjackMain
 {
     internal partial class Player1 : Form
     {
-        Round currentRound;
+        //Round currentRound;
         int playerID;
-        List<Card> playingHand;
-        List<Card> dealerHand;
+        dynamic server;
+        //List<Card> playingHand;
+        //List<Card> dealerHand;
         List<PictureBox> showableCards = new List<PictureBox>();
         List<PictureBox> showableCardsDealer = new List<PictureBox>();
         public bool isCurrentPlayer
         {
-            get { return currentRound.players[playerID].isCurrentPlayer; }
+            get { return server.getPlayerState(playerID); }
             set
             {
-                currentRound.players[playerID].isCurrentPlayer = value;
+                server.setPlayerState(playerID,value);
                 if (value == false)
                 {
                     moreButton.Enabled = false;
@@ -38,30 +39,37 @@ namespace BlackjackMain
             get { return currentRound.players[playerID].isEnough; }
             set { }
         }
-        public Player1(ref Round round,int playerID)
+        public Player1(dynamic srv,int playerID)
         {
             InitializeComponent();
-            currentRound = round;
+            server = srv;
             this.playerID = playerID;
-            playingHand = currentRound.players[playerID].playingHand;
-            dealerHand = currentRound.players[2].playingHand;
-            if (playerID == round.currentPlayerProperty)
-            {
-                isCurrentPlayer = true;
-            }
-            else
-            {
-                isCurrentPlayer = false;
-            }
+
+            
         }
-        public Player1(ref Round round)//, int playerID)
-        {
-            InitializeComponent();
-            currentRound = round;
-            playingHand = currentRound.players[playerID].playingHand;
-            dealerHand = currentRound.players[2].playingHand;
-            //this.playerID = playerID;
-        }
+        //public Player1(ref Round round,int playerID)
+        //{
+        //    InitializeComponent();
+        //    currentRound = round;
+        //    playingHand = currentRound.players[playerID].playingHand;
+        //    dealerHand = currentRound.players[2].playingHand;
+        //    if (playerID == round.currentPlayerProperty)
+        //    {
+        //        isCurrentPlayer = true;
+        //    }
+        //    else
+        //    {
+        //        isCurrentPlayer = false;
+        //    }
+        //}
+        //public Player1(ref Round round)//, int playerID)
+        //{
+        //    InitializeComponent();
+        //    currentRound = round;
+        //    playingHand = currentRound.players[playerID].playingHand;
+        //    dealerHand = currentRound.players[2].playingHand;
+        //    //this.playerID = playerID;
+        //}
         private void Player1_Load(object sender, EventArgs e)
         {
             currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
