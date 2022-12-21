@@ -34,11 +34,11 @@ namespace BlackjackMain
                 { moreButton.Enabled = true; enoughButton.Enabled = true; }
             }
         }
-        bool isEnough
-        {
-            get { return currentRound.players[playerID].isEnough; }
-            set { }
-        }
+        //bool isEnough
+        //{
+        //    get { return currentRound.players[playerID].isEnough; }
+        //    set { }
+        //}
         public Player1(dynamic srv,int playerID)
         {
             InitializeComponent();
@@ -84,17 +84,17 @@ namespace BlackjackMain
 
         private void playerTotal_TextChanged(object sender, EventArgs e)
         {
-            if (Int32.Parse(playerTotal.Text) >= 21)
+            if (Int32.Parse(server.getPlayerState(playerID)) >= 21)
             {
-                currentRound.players[playerID].isEnough = true;
+                server.setPlayerState(playerID, false);
                 enoughButton.Enabled = false;
                 moreButton.Enabled = false;
             }
         }
-        void updateTotal()
-        {
-            playerTotal.Text = Convert.ToString(currentRound.players[playerID].total);
-        }
+        //void updateTotal()
+        //{
+        //    playerTotal.Text = Convert.ToString(currentRound.players[playerID].total);
+        //}
         void updateControls()
         {
             showableCards.Clear();
@@ -165,11 +165,10 @@ namespace BlackjackMain
 
         private void enoughButton_Click(object sender, EventArgs e)
         {
-            currentRound.players[playerID].isEnough = true;
+            server.setPlayerState(playerID, server.getPlayerState, false);
             //moreButton.Enabled = false;
             //enoughButton.Enabled = false;
             isCurrentPlayer = false;
-            currentRound.currentPlayerProperty ++;
         }
 
         private void Player1_FormClosed(object sender, FormClosedEventArgs e)
