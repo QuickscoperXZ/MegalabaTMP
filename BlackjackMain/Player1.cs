@@ -12,7 +12,6 @@ namespace BlackjackMain
 {
     internal partial class Player1 : Form
     {
-        //Round currentRound;
         int playerID;
         dynamic server;
         string endOfRoundState;
@@ -21,11 +20,9 @@ namespace BlackjackMain
             get { return endOfRoundState; }
             set
             {
-                eorStateMessage.Text = value; 
+                eorStateMessage.Text = value;
             }
         }
-        //List<Card> playingHand;
-        //List<Card> dealerHand;
         List<PictureBox> showableCards = new List<PictureBox>();
         List<PictureBox> showableCardsDealer = new List<PictureBox>();
         public bool isCurrentPlayer
@@ -43,67 +40,31 @@ namespace BlackjackMain
                 { moreButton.Enabled = true; enoughButton.Enabled = true; }
             }
         }
-        //bool isEnough
-        //{
-        //    get { return currentRound.players[playerID].isEnough; }
-        //    set { }
-        //}
         public Player1(dynamic srv,int playerID)
         {
             InitializeComponent();
             server = srv;
             this.playerID = playerID;
-
-            
         }
-        //public Player1(ref Round round,int playerID)
-        //{
-        //    InitializeComponent();
-        //    currentRound = round;
-        //    playingHand = currentRound.players[playerID].playingHand;
-        //    dealerHand = currentRound.players[2].playingHand;
-        //    if (playerID == round.currentPlayerProperty)
-        //    {
-        //        isCurrentPlayer = true;
-        //    }
-        //    else
-        //    {
-        //        isCurrentPlayer = false;
-        //    }
-        //}
-        //public Player1(ref Round round)//, int playerID)
-        //{
-        //    InitializeComponent();
-        //    currentRound = round;
-        //    playingHand = currentRound.players[playerID].playingHand;
-        //    dealerHand = currentRound.players[2].playingHand;
-        //    //this.playerID = playerID;
-        //}
         private void Player1_Load(object sender, EventArgs e)
         {
             server.playerTakeOne(playerID);
             server.playerTakeOne(playerID);
-            //currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
-            //currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
 
-            playerTotal.Text = server.getPlayerTotal(playerID);
+            playerTotal.Text = Convert.ToString(server.getPlayerTotal(playerID));
             showPlayerCards();
             showDealerCards();
         }
 
         private void playerTotal_TextChanged(object sender, EventArgs e)
         {
-            if (Int32.Parse(server.getPlayerState(playerID)) >= 21)
+            if (server.getPlayerTotal(playerID) >= 21)
             {
                 server.setPlayerState(playerID, false);
                 enoughButton.Enabled = false;
                 moreButton.Enabled = false;
             }
         }
-        //void updateTotal()
-        //{
-        //    playerTotal.Text = Convert.ToString(currentRound.players[playerID].total);
-        //}
         void updateControls()
         {
             showableCards.Clear();
@@ -121,7 +82,7 @@ namespace BlackjackMain
                     return returnableValue;
                 })());
             }
-            playerTotal.Text = Convert.ToString(server.getPlayerTotal);
+            playerTotal.Text = Convert.ToString(server.getPlayerTotal(playerID));
         }
         void updateControlsDealer()
         {
@@ -166,17 +127,14 @@ namespace BlackjackMain
 
         private void moreButton_Click(object sender, EventArgs e)
         {
-            //currentRound.players[playerID].takeCard(ref currentRound.currentDeck);
-            server.playerTakeOne();
+            server.playerTakeOne(playerID);
             updateControls();
             showPlayerCards();
         }
 
         private void enoughButton_Click(object sender, EventArgs e)
         {
-            server.setPlayerState(playerID, server.getPlayerState, false);
-            //moreButton.Enabled = false;
-            //enoughButton.Enabled = false;
+            server.setPlayerState(playerID, server.getPlayerState(playerID)[0], true);
             isCurrentPlayer = false;
         }
 

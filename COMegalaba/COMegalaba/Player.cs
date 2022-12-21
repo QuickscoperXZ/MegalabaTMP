@@ -10,7 +10,7 @@ namespace COMegalab
         public int playerID;
         public bool isCurrentPlayer;
         public bool isEnough;
-        int total
+        public int total
         {
             get
             {
@@ -104,7 +104,7 @@ namespace COMegalab
     }
     public class Card
     {
-        string pathTo;
+        public string pathTo;
         int value;
         public int valueProp
         {

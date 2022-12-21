@@ -20,16 +20,14 @@ namespace BlackjackMain
         {
             InitializeComponent();
         }
-        bool player1State;
-        bool player2State;
+        bool[] player1State;
+        bool[] player2State;
         private void playButton_Click(object sender, EventArgs e)
         {
             dynamic server = Activator.CreateInstance(objType);
             player1State = server.getPlayerState(0);
             player2State = server.getPlayerState(1);
 
-            //Deck newDeck = new Deck();
-            //Round startRound = new Round(newDeck);
             this.Hide();
             Player1 pl1 = new Player1(server,0);
             pl1.Show();
@@ -37,13 +35,19 @@ namespace BlackjackMain
             pl2.Show();
             Thread controlsUpdater = new Thread(delegate ()
             {
-                while (player1State) { }
+                while (player1State[0]) { }
                 pl2.Invoke((MethodInvoker)delegate () { pl2.isCurrentPlayer = true; });
             });
             controlsUpdater.Start();
             Thread dealerReady = new Thread(() =>
             {
-                while (server.getPlayerState(0)[1] == false || server.getPlayerState(1)[1] == false) { };
+                bool player1Enough = server.getPlayerState(0)[1];
+                bool player2Enough = server.getPlayerState(1)[1];
+                while (player1Enough == false || player2Enough == false)
+                {
+                    player1Enough = server.getPlayerState(0)[1];
+                    player2Enough = server.getPlayerState(1)[1];
+                }
                 while (server.getPlayerTotal(2) <= 17)
                 {
                     server.playerTakeOne(2);
@@ -53,56 +57,11 @@ namespace BlackjackMain
 
                 pl1.endOfRoundStateProperty = server.getEndOfRoundState(0);
                 pl2.endOfRoundStateProperty = server.getEndOfRoundState(1);
+
+                pl1.Invoke((MethodInvoker)delegate () { pl1.eorStateMessage.Visible = true; });
+                pl2.Invoke((MethodInvoker)delegate () { pl2.eorStateMessage.Visible = true; });
             });
             dealerReady.Start();
-            //Thread dealearReady = new Thread(delegate ()
-            //{
-            //    while (startRound.players[0].isEnough == false || startRound.players[1].isEnough == false)
-            //    { }
-            //    while (startRound.players[2].total <= 17)
-            //    {
-            //        startRound.players[2].takeCard(ref startRound.currentDeck);    
-            //    }
-            //    pl1.Invoke((MethodInvoker)delegate () { pl1.showDealerCards(); });
-            //    pl2.Invoke((MethodInvoker)delegate () { pl2.showDealerCards(); });
-
-            //    dynamic handler = Activator.CreateInstance(objType);
-
-            //    startRound.players[0].endOfRoundCode = handler.handlePlayerState(startRound.players[0].total, startRound.players[2].total);
-            //    startRound.players[1].endOfRoundCode = handler.handlePlayerState(startRound.players[1].total, startRound.players[2].total);
-
-            //    if (startRound.players[0].endOfRoundCode == 0)
-            //    {
-            //        pl1.eorStateMessage.Text = "          Вы выйграли";
-            //        pl1.eorStateMessage.ForeColor = Color.Green;
-            //    }
-            //    if (startRound.players[0].endOfRoundCode == 1)
-            //    {
-            //        pl1.eorStateMessage.Text = "          Вы проиграли";
-            //        pl1.eorStateMessage.ForeColor = Color.Red;
-            //    }
-            //    if (startRound.players[0].endOfRoundCode == 2)
-            //    {
-            //        pl1.eorStateMessage.Text = "          Ничья";
-            //        pl1.eorStateMessage.ForeColor = Color.Gray;
-            //    }
-            //    if (startRound.players[1].endOfRoundCode == 0)
-            //    {
-            //        pl1.eorStateMessage.Text = "          Вы выйграли";
-            //        pl1.eorStateMessage.ForeColor = Color.Green;
-            //    }
-            //    if (startRound.players[1].endOfRoundCode == 1)
-            //    {
-            //        pl1.eorStateMessage.Text = "          Вы проиграли";
-            //        pl1.eorStateMessage.ForeColor = Color.Red;
-            //    }
-            //    if (startRound.players[1].endOfRoundCode == 2)
-            //    {
-            //        pl1.eorStateMessage.Text = "          Ничья";
-            //        pl1.eorStateMessage.ForeColor = Color.Gray;
-            //    }
-            //});
-            //dealearReady.Start();
         }
     }
 }
